@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:37:31 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/16 17:08:14 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:23:11 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,12 @@ void mutex_init(t_philo_data *data)
 	}
 }
 
-void  __attribute__ ((format (printf, 1, 0)))
-print_status(char *str, t_mutex *mutex, long long int time, int philo_id)
+void	print_status(char *str, t_philo_data *data, long long int time, int philo_id)
 {
-	pthread_mutex_lock(mutex);
-	printf(str, time, philo_id);
-	pthread_mutex_unlock(mutex);
+	if (data->stop == true)
+		return ;
+	pthread_mutex_lock(&data->print_mutex);
+	if (data->stop == false)
+		printf(str, time, philo_id);
+	pthread_mutex_unlock(&data->print_mutex);
 }

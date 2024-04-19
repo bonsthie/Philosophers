@@ -1,0 +1,135 @@
+[
+ {
+  "directory": "/nfs/homes/babonnet/Documents/philo_project/Philosophers",
+  "arguments": [
+   "clang",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-pthread",
+   "-MMD",
+   "-g",
+   "-I",
+   "include",
+   "-o",
+   "obj/./philo.o",
+   "-c",
+   "philo.c"
+  ],
+  "file": "philo.c"
+ },
+ {
+  "directory": "/nfs/homes/babonnet/Documents/philo_project/Philosophers",
+  "arguments": [
+   "clang",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-pthread",
+   "-MMD",
+   "-g",
+   "-I",
+   "include",
+   "-o",
+   "obj/./ft_strtol.o",
+   "-c",
+   "ft_strtol.c"
+  ],
+  "file": "ft_strtol.c"
+ },
+ {
+  "directory": "/nfs/homes/babonnet/Documents/philo_project/Philosophers",
+  "arguments": [
+   "clang",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-pthread",
+   "-MMD",
+   "-g",
+   "-I",
+   "include",
+   "-o",
+   "obj/./init_philo.o",
+   "-c",
+   "init_philo.c"
+  ],
+  "file": "init_philo.c"
+ },
+ {
+  "directory": "/nfs/homes/babonnet/Documents/philo_project/Philosophers",
+  "arguments": [
+   "clang",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-pthread",
+   "-MMD",
+   "-g",
+   "-I",
+   "include",
+   "-o",
+   "obj/./mutex_utils.o",
+   "-c",
+   "mutex_utils.c"
+  ],
+  "file": "mutex_utils.c"
+ },
+ {
+  "directory": "/nfs/homes/babonnet/Documents/philo_project/Philosophers",
+  "arguments": [
+   "clang",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-pthread",
+   "-MMD",
+   "-g",
+   "-I",
+   "include",
+   "-o",
+   "obj/./routine.o",
+   "-c",
+   "routine.c"
+  ],
+  "file": "routine.c"
+ },
+ {
+  "directory": "/nfs/homes/babonnet/Documents/philo_project/Philosophers",
+  "arguments": [
+   "clang",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-pthread",
+   "-MMD",
+   "-g",
+   "-I",
+   "include",
+   "-o",
+   "obj/./action.o",
+   "-c",
+   "action.c"
+  ],
+  "file": "action.c"
+ },
+ {
+  "directory": "/nfs/homes/babonnet/Documents/philo_project/Philosophers",
+  "arguments": [
+   "clang",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-pthread",
+   "-MMD",
+   "-g",
+   "-I",
+   "include",
+   "-o",
+   "obj/./utils.o",
+   "-c",
+   "utils.c"
+  ],
+  "file": "utils.c"
+ }
+]

@@ -6,28 +6,14 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:43:36 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/16 19:15:41 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/19 16:22:52 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <pthread.h>
+#include <string.h>
 #include <unistd.h>
-
-size_t ft_strlen(const char *str)
-{
-	const char *endptr;
-
-	endptr = str;
-	while(*endptr)
-		endptr++;
-	return (endptr - str);
-}
-
-int ft_putstr(const char *str)
-{
-	return (write(1, str, ft_strlen(str)));
-}
 
 int take_fork(t_philo *philo, int fork_id)
 {
@@ -35,34 +21,44 @@ int take_fork(t_philo *philo, int fork_id)
 	{
 		if (pthread_mutex_lock(&philo->fork_left))
 			return (1);
-		return (0);
 	}
-	if (pthread_mutex_lock(philo->fork_right))
-		return (1);
+	else
+	{
+		if (pthread_mutex_lock(philo->fork_right))
+			return (1);
+	}
+	print_status(FORK_MSG, philo->data, 0, philo->id);
 	return (0);
 }
 
-void *__philo_routine(t_philo *philo, t_time time, t_mutex *print_mutex)
+int is_dead(t_philo *philo)
 {
-	int *error = malloc(sizeof(int));
+	(void)philo;
+	int i  = strlen("tests");
+	return (i);
+}
 
-	*error = 1;
+static void *__philo_routine(t_philo *philo, t_philo_data *data)
+{
+	int err;
+
 	take_fork(philo, philo->id % 2);
+	// check if died
 	take_fork(philo, (philo->id + 1) % 2);
-	print_status("%d philo %d eat\n", print_mutex, 0, philo->id);
-	philo->status = EAT;
-	sleep(1);
-	if (philo->id == 4)
+	// check if died
+	print_status(EAT_MSG, data, 0, philo->id);
+	err = philo_wait(philo, 1, 2);
+	if (!err)
 	{
-		write(2, "ah\n", 3);
-		return ((void *)error);
+		print_status(SLEEP_MSG, data, 0, philo->id);
+		err = philo_wait(philo, 1, 0);
 	}
 	pthread_mutex_unlock(&philo->fork_left);
 	pthread_mutex_unlock(philo->fork_right);
-	print_status("%d philo %d think\n", print_mutex, 0, philo->id);
-	(void)time;
-	(void)print_mutex;
-	return (NULL);
+	if (err)
+		return (PTHREAD_CANCELED);
+	print_status(THINK_MSG, data, 0, philo->id);
+	return (PTHREAD_SUCCESS);
 }
 
 void *philo_routine(void *args)
@@ -71,6 +67,5 @@ void *philo_routine(void *args)
 
 	philo = args;
 	return (__philo_routine(philo,
-							philo->data->time,
-						 	&philo->data->print_mutex));
+							philo->data));
 }
