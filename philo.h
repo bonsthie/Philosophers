@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 20:20:25 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/19 16:50:30 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:55:27 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ typedef enum e_status
 
 typedef struct s_time
 {
-	int						eat;
-	int						sleep;
-	int						die;
+	long long				eat;
+	long long				sleep;
+	long long				die;
 }							t_time;
 
 typedef struct s_philo
@@ -58,10 +58,12 @@ struct						s_philo_data
 	bool					stop;
 	t_time					time;
 	t_mutex					print_mutex;
+	t_mutex					stop_mutex;
 	int						philo_nb;
 };
 
 # define MAX_INT 0x7FFFFFFF
+# define MICROSECOND 1000000
 
 # ifndef PTHREAD_CANCELED
 #  define PTHREAD_CANCELED	((void *)-1)
@@ -72,7 +74,7 @@ struct						s_philo_data
 # endif
 
 # ifndef WAIT_INTERVAL 
-#  define WAIT_INTERVAL 1000000
+#  define WAIT_INTERVAL 10000
 # endif
 
 # define YELLOW	"\x1b[33m"
@@ -85,18 +87,16 @@ struct						s_philo_data
 # define ERROR_CREATE	"error [while creating the thread of the %d philo]\n"
 # define ERROR_JOIN		"error [while joining thread]\n"
 
-# define FORK_MSG	BEIGE	"%d philo %d has taken a fork\n"	RESET
-# define SLEEP_MSG	BLUE	"%d philo %d is sleeping\n"			RESET
-# define THINK_MSG	GREEN	"%d philo %d is think\n"			RESET
-# define EAT_MSG	YELLOW	"%d philo %d is eat\n"				RESET
-# define DIED_MSG	RED		"%d philo %d died\n"				RESET
+# define FORK_MSG	BEIGE	"%lld %d has taken a fork\n"	RESET
+# define SLEEP_MSG	BLUE	"%lld %d is sleeping\n"			RESET
+# define THINK_MSG	GREEN	"%lld %d is thinking\n"			RESET
+# define EAT_MSG	YELLOW	"%lld %d is eating\n"			RESET
+# define DIED_MSG	RED		"%lld %d died\n"				RESET
 
-# ifndef __GNUC__
-#  define __PRINTF
-# elif !defined(__clang__)
-#  define __PRINTF 
-# else
+#if defined(__GNUC__) || defined(__clang__)
 #  define __PRINTF  __attribute__((format(printf, 1, 0))) 
+# else
+#  define __PRINTF 
 # endif
 
 void		print_status(char *str, t_philo_data *data, long long int time,
@@ -105,7 +105,14 @@ void		print_status(char *str, t_philo_data *data, long long int time,
 // function
 int			philo_init(char *args[4], t_philo_data *data);
 void		*philo_routine(void *args);
-int			philo_wait(t_philo *philo, int time_to_sleep, int time_to_die);
+int			philo_wait(t_philo *philo, long long time_to_sleep, long long time_to_die);
+bool		is_dead(t_philo_data *data);
+
+//time
+int philo_wait(t_philo *philo, long long time_to_sleep, long long time_to_die);
+long long time_reamaning(t_philo *philo);
+long long	get_current_time(void);
+long long  get_time(void);
 
 // mutex utils
 void		mutex_destroy(t_philo_data *data);
@@ -116,9 +123,8 @@ int			ft_isdigit(int c);
 int			ft_isspace(int c);
 int			ft_toupper(int c);
 long int	ft_strtol(char *__restrict nptr, char **__restrict end_ptr,
-				int base) __nonnull((1));
-int			ft_strncmp(const char *__restrict first,
-				const char *__restrict second,
-				size_t length) __nonnull((1, 2));
+				int base);
+int			ft_strncmp(const char *__restrict first, const char *__restrict second,
+				size_t length);
 
 #endif

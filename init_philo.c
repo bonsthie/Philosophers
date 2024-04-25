@@ -6,11 +6,12 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 21:48:42 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/17 15:02:50 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:44:25 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <bits/wchar.h>
 
 int fill_number(char *str)
 {
@@ -60,10 +61,10 @@ int	philo_init(char *args[4], t_philo_data *data)
 {
 
 	data->philo_nb = fill_number(args[0]);
-	data->time.die = fill_number(args[1]);
-	data->time.eat = fill_number(args[2]);
-	data->time.sleep = fill_number(args[3]);
-	if (data->philo_nb < 0 
+	data->time.die = fill_number(args[1]) * 1000;
+	data->time.eat = fill_number(args[2]) * 1000;
+	data->time.sleep = fill_number(args[3]) * 1000;
+	if (data->philo_nb <= 1 
 		|| data->time.die < 0 
 		|| data->time.eat < 0 
 		|| data->time.sleep < 0)

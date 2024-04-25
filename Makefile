@@ -6,14 +6,14 @@
 #    By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/08 19:20:48 by babonnet          #+#    #+#              #
-#    Updated: 2024/04/10 19:57:20 by babonnet         ###   ########.fr        #
+#    Updated: 2024/04/23 18:37:06 by babonnet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -pthread -MMD -g
+CFLAGS = -Wall -Wextra -Werror -pthread -MMD -MP -g
 SRC_DIR = ./
 OBJ_DIR = obj
 HSRCS = include

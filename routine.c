@@ -6,14 +6,12 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:43:36 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/19 16:22:52 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:56:13 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <pthread.h>
-#include <string.h>
-#include <unistd.h>
 
 int take_fork(t_philo *philo, int fork_id)
 {
@@ -27,37 +25,53 @@ int take_fork(t_philo *philo, int fork_id)
 		if (pthread_mutex_lock(philo->fork_right))
 			return (1);
 	}
-	print_status(FORK_MSG, philo->data, 0, philo->id);
+	print_status(FORK_MSG, philo->data, get_time() / 1000, philo->id);
 	return (0);
 }
 
-int is_dead(t_philo *philo)
+int take_forks(t_philo *philo)
 {
-	(void)philo;
-	int i  = strlen("tests");
-	return (i);
+	take_fork(philo, (philo->id + 1) % 2);
+	take_fork(philo, philo->id % 2);
+	if (philo->status == EAT && time_reamaning(philo) < 0)
+	{
+		pthread_mutex_unlock(&philo->fork_left);
+		pthread_mutex_unlock(philo->fork_right);
+		return (1);
+	}
+	return (0);
 }
 
-static void *__philo_routine(t_philo *philo, t_philo_data *data)
+int eat(t_philo *philo, t_philo_data *data, t_time time)
 {
 	int err;
 
-	take_fork(philo, philo->id % 2);
-	// check if died
-	take_fork(philo, (philo->id + 1) % 2);
-	// check if died
-	print_status(EAT_MSG, data, 0, philo->id);
-	err = philo_wait(philo, 1, 2);
-	if (!err)
-	{
-		print_status(SLEEP_MSG, data, 0, philo->id);
-		err = philo_wait(philo, 1, 0);
-	}
+	philo->last_ate = get_time();
+	philo->status = EAT;
+	print_status(EAT_MSG, data, philo->last_ate / 1000, philo->id);
+	err = philo_wait(philo, time.eat, time_reamaning(philo));
 	pthread_mutex_unlock(&philo->fork_left);
 	pthread_mutex_unlock(philo->fork_right);
-	if (err)
+	return (err);
+}
+
+int sleep_action(t_philo *philo, t_philo_data *data, t_time time)
+{
+	print_status(SLEEP_MSG, data, get_time() / 1000, philo->id);
+	if (philo_wait(philo, time.sleep, time_reamaning(philo)))
+		return (1);
+	return (0);
+}
+
+static void *__philo_routine(t_philo *philo, t_philo_data *data, t_time time)
+{
+	if (take_forks(philo))
 		return (PTHREAD_CANCELED);
-	print_status(THINK_MSG, data, 0, philo->id);
+	if (eat(philo, data, time))
+		return (PTHREAD_CANCELED);
+	if (sleep_action(philo, data, time))
+		return (PTHREAD_CANCELED);
+	print_status(THINK_MSG, data, get_time() / 1000, philo->id);
 	return (PTHREAD_SUCCESS);
 }
 
@@ -66,6 +80,10 @@ void *philo_routine(void *args)
 	t_philo *philo;
 
 	philo = args;
-	return (__philo_routine(philo,
-							philo->data));
+	while (is_dead(philo->data) == false)
+	{
+		if (__philo_routine(philo, philo->data, philo->data->time) == PTHREAD_CANCELED)
+			return (PTHREAD_CANCELED);
+	}
+	return (PTHREAD_SUCCESS);
 }

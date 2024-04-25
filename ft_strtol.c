@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:06:53 by bbonnet           #+#    #+#             */
-/*   Updated: 2024/04/09 12:45:30 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/23 13:43:40 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static inline int	ft_index(char *str, char c)
 	return (tmp - str);
 }
 
-static long int	_strtol(char *nptr, char **end_ptr, int base_size)
+static long int	__strtol(char *nptr, char **end_ptr, int base_size)
 {
 	static char	*base_s = "0123456789ABCDEF";
 	long int	nb;
@@ -55,8 +55,8 @@ long int	ft_strtol(char *nptr, char **end_ptr, int base)
 	if (!nptr || base > 16 || base < 0)
 		return (0);
 	if (!ft_strncmp(nptr, "0x", 2) && !base)
-		return (_strtol(nptr + 2, end_ptr, 16));
+		return (__strtol(nptr + 2, end_ptr, 16));
 	if (!ft_strncmp(nptr, "0b", 2) && !base)
-		return (_strtol(nptr + 2, end_ptr, 2));
-	return (_strtol(nptr, end_ptr, base));
+		return (__strtol(nptr + 2, end_ptr, 2));
+	return (__strtol(nptr, end_ptr, base));
 }

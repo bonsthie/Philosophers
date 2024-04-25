@@ -6,11 +6,12 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:34:33 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/08 22:42:17 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:47:30 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
+#include "philo.h"
 
 int	ft_isspace(int c)
 {
@@ -38,3 +39,4 @@ int	ft_strncmp(const char *first, const char *second, size_t length)
 		i++;
 	return ((unsigned char) first[i] - (unsigned char) second[i]);
 }
+
