@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 20:20:25 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/25 18:55:27 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/26 15:57:23 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,8 @@ typedef struct s_philo
 struct						s_philo_data
 {
 	t_philo					*philo;
-	bool					stop;
 	t_time					time;
-	t_mutex					print_mutex;
+	bool					stop;
 	t_mutex					stop_mutex;
 	int						philo_nb;
 };

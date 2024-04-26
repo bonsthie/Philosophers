@@ -6,14 +6,14 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:43:36 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/25 18:56:13 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/26 15:34:51 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <pthread.h>
 
-int take_fork(t_philo *philo, int fork_id)
+int	take_fork(t_philo *philo, int fork_id)
 {
 	if (fork_id == 0)
 	{
@@ -29,7 +29,7 @@ int take_fork(t_philo *philo, int fork_id)
 	return (0);
 }
 
-int take_forks(t_philo *philo)
+int	take_forks(t_philo *philo)
 {
 	take_fork(philo, (philo->id + 1) % 2);
 	take_fork(philo, philo->id % 2);
@@ -42,9 +42,9 @@ int take_forks(t_philo *philo)
 	return (0);
 }
 
-int eat(t_philo *philo, t_philo_data *data, t_time time)
+int	eat(t_philo *philo, t_philo_data *data, t_time time)
 {
-	int err;
+	int	err;
 
 	philo->last_ate = get_time();
 	philo->status = EAT;
@@ -55,7 +55,7 @@ int eat(t_philo *philo, t_philo_data *data, t_time time)
 	return (err);
 }
 
-int sleep_action(t_philo *philo, t_philo_data *data, t_time time)
+int	sleep_action(t_philo *philo, t_philo_data *data, t_time time)
 {
 	print_status(SLEEP_MSG, data, get_time() / 1000, philo->id);
 	if (philo_wait(philo, time.sleep, time_reamaning(philo)))
@@ -63,27 +63,22 @@ int sleep_action(t_philo *philo, t_philo_data *data, t_time time)
 	return (0);
 }
 
-static void *__philo_routine(t_philo *philo, t_philo_data *data, t_time time)
+void	*philo_routine(void *args)
 {
-	if (take_forks(philo))
-		return (PTHREAD_CANCELED);
-	if (eat(philo, data, time))
-		return (PTHREAD_CANCELED);
-	if (sleep_action(philo, data, time))
-		return (PTHREAD_CANCELED);
-	print_status(THINK_MSG, data, get_time() / 1000, philo->id);
-	return (PTHREAD_SUCCESS);
-}
-
-void *philo_routine(void *args)
-{
-	t_philo *philo;
+	t_philo			*philo;
+	t_philo_data	*data;
 
 	philo = args;
+	data = philo->data;
 	while (is_dead(philo->data) == false)
 	{
-		if (__philo_routine(philo, philo->data, philo->data->time) == PTHREAD_CANCELED)
+		if (take_forks(philo))
 			return (PTHREAD_CANCELED);
+		if (eat(philo, data, data->time))
+			return (PTHREAD_CANCELED);
+		if (sleep_action(philo, data, data->time))
+			return (PTHREAD_CANCELED);
+		print_status(THINK_MSG, data, get_time() / 1000, philo->id);
 	}
 	return (PTHREAD_SUCCESS);
 }

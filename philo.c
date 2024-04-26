@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:52:34 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/25 18:56:40 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/26 15:37:03 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ void	philo_philoing(t_philo_data *data)
 	{
 		if (pthread_join(philo[i].thread, (void **)&dead))
 		{
-			/* pthread_mutex_unlock(&philo[i].fork_left); */
-			/* pthread_mutex_unlock(philo[i].fork_right); */
 			print_status(ERROR_JOIN , data, philo[i].id, 0);
 			return ;
 		}
@@ -60,7 +58,6 @@ void	philo_philoing(t_philo_data *data)
 		}
 		i++;
 	}
-	philo_philoing(data);
 }
 
 int	main(int ac, char **av)
