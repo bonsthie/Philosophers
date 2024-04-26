@@ -6,12 +6,11 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:34:33 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/25 18:47:30 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:35:52 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
-#include "philo.h"
 
 int	ft_isspace(int c)
 {

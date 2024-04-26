@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:52:34 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/26 15:37:03 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:12:45 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ void	philo_philoing(t_philo_data *data)
 		if (dead)
 		{
 			set_to_dead(data);
-			pthread_mutex_lock(&data->print_mutex);
 			printf(DIED_MSG, get_time() / 1000,	philo[i].id);
-			pthread_mutex_unlock(&data->print_mutex);
 			return ;
 		}
 		i++;
@@ -68,7 +66,6 @@ int	main(int ac, char **av)
 		return (1);
 	if (philo_init(av + 1, &data))
 		return (1);
-	data.print_mutex = (t_mutex){0};
 	data.stop_mutex = (t_mutex){0};
 	get_time();
 	mutex_init(&data);

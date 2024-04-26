@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 21:48:42 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/24 15:44:25 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:14:41 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int create_philo(t_philo_data *data)
 	while (i < data->philo_nb)
 	{
 		philo[i].fork_right = &philo[(i + 1) % data->philo_nb].fork_left;
-		philo[i].status = NOTHING;
 		philo[i].data = data;
 		philo[i].id = i + 1;
 		i++;

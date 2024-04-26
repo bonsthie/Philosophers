@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 20:20:25 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/26 15:57:23 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/26 20:18:31 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ struct						s_philo_data
 # endif
 
 # ifndef WAIT_INTERVAL 
-#  define WAIT_INTERVAL 10000
+#  define WAIT_INTERVAL 100
 # endif
 
 # define YELLOW	"\x1b[33m"
