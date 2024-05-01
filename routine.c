@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:43:36 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/01 16:22:44 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:54:20 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,22 @@ int	sleep_action(t_philo *philo, t_philo_data *data, t_time time)
 	return (philo_wait(philo, time.sleep, time_reamaning(philo)));
 }
 
+void *set_to_die(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->eat_count_mutex);
+	philo->eat_count = -1;
+	pthread_mutex_unlock(&philo->eat_count_mutex);
+	return (PTHREAD_CANCELED);
+}
+
+void eat_meal(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->eat_count_mutex);
+	if (philo->eat_count > 0)
+		philo->eat_count--;
+	pthread_mutex_unlock(&philo->eat_count_mutex);
+}
+
 void	*philo_routine(void *args)
 {
 	t_philo			*philo;
@@ -61,19 +77,19 @@ void	*philo_routine(void *args)
 
 	philo = args;
 	data = philo->data;
-	while (stop(philo->data) == false 
-		&& (philo->eat_count > 0 || philo->eat_count == NO_EAT_COUNT))
+	while (philo_die(philo) > 0 || philo_die(philo) > NO_EAT_COUNT)
 	{
 		if (take_forks(philo))
-			return (PTHREAD_CANCELED);
+			return (set_to_die(philo));
 		if (eat(philo, data, data->time))
-			return (PTHREAD_CANCELED);
+			return (set_to_die(philo));
 		if (sleep_action(philo, data, data->time))
-			return (PTHREAD_CANCELED);
-
+			return (set_to_die(philo));
 		print_status(THINK_MSG, data, get_time() / 1000, philo->id);
-		if (philo->eat_count != NO_EAT_COUNT)
-			philo->eat_count--;
+		if (philo_die(philo) != NO_EAT_COUNT)
+			eat_meal(philo);
 	}
+	while(philo_die(philo) == 0)
+		usleep(WAIT_INTERVAL);
 	return (PTHREAD_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:37:31 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/01 16:23:52 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:32:18 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ void	mutex_destroy(t_philo_data *data)
 	int	i;
 
 	i = 0;
+	//destroy all data mutex
 	while (i < data->philo_nb)
 	{
 		pthread_mutex_destroy(&data->philo[i].fork_left);
+		pthread_mutex_destroy(&data->philo[i].eat_count_mutex);
 		i++;
 	}
 }

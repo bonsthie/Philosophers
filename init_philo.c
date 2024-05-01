@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 21:48:42 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/01 16:23:01 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:30:55 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int create_philo(t_philo_data *data, int eat_count)
 		philo[i].data = data;
 		philo[i].id = i + 1;
 		philo[i].eat_count = eat_count;
+		philo[i].eat_count_mutex = (t_mutex){0};
 		i++;
 	}
 	data->philo = philo;

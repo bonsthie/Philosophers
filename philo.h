@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 20:20:25 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/01 16:23:18 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:43:51 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philo
 	t_philo_data			*data;
 	long long				time_status;
 	long long				last_ate;
+	t_mutex					eat_count_mutex;
 	int						eat_count;
 	int						id;
 }							t_philo;
@@ -105,6 +106,7 @@ int philo_wait(t_philo *philo, long long time_to_sleep, long long time_to_die);
 long long time_reamaning(t_philo *philo);
 long long	get_current_time(void);
 long long  get_time(void);
+int philo_die(t_philo *philo);
 
 // mutex utils
 void		mutex_destroy(t_philo_data *data);
