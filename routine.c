@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:43:36 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/01 17:54:20 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/01 18:33:00 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	*philo_routine(void *args)
 
 	philo = args;
 	data = philo->data;
-	while (philo_die(philo) > 0 || philo_die(philo) > NO_EAT_COUNT)
+	while (philo_die(philo) > 0 || philo_die(philo) == NO_EAT_COUNT)
 	{
 		if (take_forks(philo))
 			return (set_to_die(philo));

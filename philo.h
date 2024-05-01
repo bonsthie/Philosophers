@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 20:20:25 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/01 17:43:51 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/01 18:11:48 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void		print_status(char *str, t_philo_data *data, long long int time,
 			int philo_id) __PRINTF;
 
 // function
-int			philo_init(char *args[4], t_philo_data *data);
+int			philo_init(char *args[5], t_philo_data *data);
 void		*philo_routine(void *args);
 int			philo_wait(t_philo *philo, long long time_to_sleep, long long time_to_die);
 bool		stop(t_philo_data *data);

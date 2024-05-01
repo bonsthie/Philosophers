@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:52:34 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/01 17:55:47 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/01 18:07:29 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void monitoring(t_philo_data *data)
 	while (1)
 	{
 		i = 0;
+		usleep(10000);
 		while (i < data->philo_nb)
 		{
 			if (philo_die(&data->philo[i]) == -1)
@@ -78,7 +79,7 @@ void	philo_philoing(t_philo_data *data)
 	while (i < data->philo_nb)
 	{
 		if (pthread_create(&data->philo[i].thread, NULL, philo_routine,
-				&data->philo[i]))
+				&philo[i]))
 		{
 			print_status(EAT_MSG, data, philo[i].id, 0);
 			return ;
