@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 20:20:25 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/26 20:18:31 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:23:18 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,6 @@ typedef unsigned long int	t_pthread;
 
 typedef struct s_philo_data	t_philo_data;
 
-typedef enum e_status
-{
-	NOTHING,
-	EAT,
-	THINK,
-	SLEEP,
-}							t_status;
-
 typedef struct s_time
 {
 	long long				eat;
@@ -46,9 +38,9 @@ typedef struct s_philo
 	t_mutex					fork_left;
 	t_mutex					*fork_right;
 	t_philo_data			*data;
-	t_status				status;
 	long long				time_status;
 	long long				last_ate;
+	int						eat_count;
 	int						id;
 }							t_philo;
 
@@ -63,6 +55,7 @@ struct						s_philo_data
 
 # define MAX_INT 0x7FFFFFFF
 # define MICROSECOND 1000000
+# define NO_EAT_COUNT -2
 
 # ifndef PTHREAD_CANCELED
 #  define PTHREAD_CANCELED	((void *)-1)
@@ -73,7 +66,7 @@ struct						s_philo_data
 # endif
 
 # ifndef WAIT_INTERVAL 
-#  define WAIT_INTERVAL 100
+#  define WAIT_INTERVAL 500000
 # endif
 
 # define YELLOW	"\x1b[33m"
@@ -105,7 +98,7 @@ void		print_status(char *str, t_philo_data *data, long long int time,
 int			philo_init(char *args[4], t_philo_data *data);
 void		*philo_routine(void *args);
 int			philo_wait(t_philo *philo, long long time_to_sleep, long long time_to_die);
-bool		is_dead(t_philo_data *data);
+bool		stop(t_philo_data *data);
 
 //time
 int philo_wait(t_philo *philo, long long time_to_sleep, long long time_to_die);

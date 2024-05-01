@@ -24,7 +24,7 @@ int	philo_wait(t_philo *philo, long long time_to_sleep, long long time_to_die)
 {
 	while (time_to_sleep >= WAIT_INTERVAL)
 	{
-		if (is_dead(philo->data) == true)
+		if (stop(philo->data) == true)
 			return (0);
 		if (time_to_die <= 0)
 			return (1);

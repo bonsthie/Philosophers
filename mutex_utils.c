@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:37:31 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/26 17:30:07 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:23:52 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	mutex_init(t_philo_data *data)
 	int	i;
 
 	i = 0;
+	data->stop_mutex = (t_mutex){0};
 	while (i < data->philo_nb)
 	{
 		pthread_mutex_init(&data->philo[i].fork_left, NULL);
@@ -41,20 +42,20 @@ void	print_status(char *str, t_philo_data *data, long long int time,
 {
 	static t_mutex print_mutex = {0};
 
-	if (is_dead(data) == true)
+	if (stop(data) == true)
 		return ;
 	pthread_mutex_lock(&print_mutex);
-	if (is_dead(data) == false)
+	if (stop(data) == false)
 		printf(str, time, philo_id);
 	pthread_mutex_unlock(&print_mutex);
 }
 
-bool is_dead(t_philo_data *data)
+bool stop(t_philo_data *data)
 {
-	bool is_dead;
+	bool stop;
 
 	pthread_mutex_lock(&data->stop_mutex);
-	is_dead = data->stop;
+	stop = data->stop;
 	pthread_mutex_unlock(&data->stop_mutex);
-	return (is_dead);
+	return (stop);
 }

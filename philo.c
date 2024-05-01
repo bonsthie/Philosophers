@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:52:34 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/26 17:12:45 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:23:10 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <pthread.h>
 #include <unistd.h>
 
-void set_to_dead(t_philo_data *data)
+void set_to_stop(t_philo_data *data)
 {
 	pthread_mutex_lock(&data->stop_mutex);
 	data->stop = true;
@@ -24,6 +24,7 @@ void set_to_dead(t_philo_data *data)
 
 void	philo_philoing(t_philo_data *data)
 {
+	static	int dead_print = 0;
 	t_philo	*philo;
 	int		*dead;
 	int		i;
@@ -50,9 +51,9 @@ void	philo_philoing(t_philo_data *data)
 		}
 		if (dead)
 		{
-			set_to_dead(data);
-			printf(DIED_MSG, get_time() / 1000,	philo[i].id);
-			return ;
+			set_to_stop(data);
+			if (!dead_print++)
+				printf(DIED_MSG, get_time() / 1000,	philo[i].id);
 		}
 		i++;
 	}
@@ -62,11 +63,10 @@ int	main(int ac, char **av)
 {
 	t_philo_data	data;
 
-	if (ac != 5)
+	if (ac < 5 || ac > 6)
 		return (1);
 	if (philo_init(av + 1, &data))
 		return (1);
-	data.stop_mutex = (t_mutex){0};
 	get_time();
 	mutex_init(&data);
 	philo_philoing(&data);
