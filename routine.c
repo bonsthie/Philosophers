@@ -6,12 +6,13 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:43:36 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/01 16:22:44 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:11:39 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <pthread.h>
+#include <unistd.h>
 
 int	take_fork(t_philo *philo, int fork_id)
 {
@@ -54,6 +55,16 @@ int	sleep_action(t_philo *philo, t_philo_data *data, t_time time)
 	return (philo_wait(philo, time.sleep, time_reamaning(philo)));
 }
 
+void *philo_die(t_philo *philo)
+{
+	static bool dead = false;
+
+	set_to_stop(philo->data);
+	if (!dead++)
+		printf(DIED_MSG, get_time() / 1000,	philo->id);
+	return (PTHREAD_CANCELED);
+}
+
 void	*philo_routine(void *args)
 {
 	t_philo			*philo;
@@ -61,19 +72,21 @@ void	*philo_routine(void *args)
 
 	philo = args;
 	data = philo->data;
-	while (stop(philo->data) == false 
+	while (stop(philo->data)
 		&& (philo->eat_count > 0 || philo->eat_count == NO_EAT_COUNT))
 	{
 		if (take_forks(philo))
-			return (PTHREAD_CANCELED);
+			return (philo_die(philo));
 		if (eat(philo, data, data->time))
-			return (PTHREAD_CANCELED);
+			return (philo_die(philo));
 		if (sleep_action(philo, data, data->time))
-			return (PTHREAD_CANCELED);
-
+			return (philo_die(philo));
 		print_status(THINK_MSG, data, get_time() / 1000, philo->id);
 		if (philo->eat_count != NO_EAT_COUNT)
 			philo->eat_count--;
 	}
+	philo_finish(data);
+	while(stop(philo->data))
+		usleep(1000);
 	return (PTHREAD_SUCCESS);
 }

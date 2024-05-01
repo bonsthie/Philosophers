@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:52:34 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/01 16:23:10 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:44:51 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,8 @@
 #include <pthread.h>
 #include <unistd.h>
 
-void set_to_stop(t_philo_data *data)
-{
-	pthread_mutex_lock(&data->stop_mutex);
-	data->stop = true;
-	pthread_mutex_unlock(&data->stop_mutex);
-}
-
-
 void	philo_philoing(t_philo_data *data)
 {
-	static	int dead_print = 0;
 	t_philo	*philo;
 	int		*dead;
 	int		i;
@@ -48,12 +39,6 @@ void	philo_philoing(t_philo_data *data)
 		{
 			print_status(ERROR_JOIN , data, philo[i].id, 0);
 			return ;
-		}
-		if (dead)
-		{
-			set_to_stop(data);
-			if (!dead_print++)
-				printf(DIED_MSG, get_time() / 1000,	philo[i].id);
 		}
 		i++;
 	}

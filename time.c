@@ -46,3 +46,18 @@ long long	time_reamaning(t_philo *philo)
 {
 	return (philo->data->time.die - (get_time() - philo->last_ate));
 }
+
+void philo_finish(t_philo_data *data)
+{
+	pthread_mutex_lock(&data->stop_mutex);
+	if (data->stop > 0)
+		data->stop--;
+	pthread_mutex_unlock(&data->stop_mutex);
+}
+
+void set_to_stop(t_philo_data *data)
+{
+	pthread_mutex_lock(&data->stop_mutex);
+	data->stop = 0;
+	pthread_mutex_unlock(&data->stop_mutex);
+}

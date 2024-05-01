@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:37:31 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/01 16:23:52 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:08:33 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,17 @@ void	print_status(char *str, t_philo_data *data, long long int time,
 {
 	static t_mutex print_mutex = {0};
 
-	if (stop(data) == true)
+	if (stop(data) == 0)
 		return ;
 	pthread_mutex_lock(&print_mutex);
-	if (stop(data) == false)
+	if (stop(data))
 		printf(str, time, philo_id);
 	pthread_mutex_unlock(&print_mutex);
 }
 
-bool stop(t_philo_data *data)
+int stop(t_philo_data *data)
 {
-	bool stop;
+	int stop;
 
 	pthread_mutex_lock(&data->stop_mutex);
 	stop = data->stop;

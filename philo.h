@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 20:20:25 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/01 16:23:18 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:15:12 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ struct						s_philo_data
 {
 	t_philo					*philo;
 	t_time					time;
-	bool					stop;
+	int						stop;
 	t_mutex					stop_mutex;
 	int						philo_nb;
 };
@@ -98,13 +98,15 @@ void		print_status(char *str, t_philo_data *data, long long int time,
 int			philo_init(char *args[4], t_philo_data *data);
 void		*philo_routine(void *args);
 int			philo_wait(t_philo *philo, long long time_to_sleep, long long time_to_die);
-bool		stop(t_philo_data *data);
+int		stop(t_philo_data *data);
 
 //time
 int philo_wait(t_philo *philo, long long time_to_sleep, long long time_to_die);
 long long time_reamaning(t_philo *philo);
 long long	get_current_time(void);
 long long  get_time(void);
+void set_to_stop(t_philo_data *data);
+void philo_finish(t_philo_data *data);
 
 // mutex utils
 void		mutex_destroy(t_philo_data *data);

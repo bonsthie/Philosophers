@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 21:48:42 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/01 16:23:01 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:26:44 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	philo_init(char *args[4], t_philo_data *data)
 		|| data->time.sleep < 0
 		|| eat_count == -1)
 		return (1);
-	data->stop = false;
+	data->stop = data->philo_nb;
 	if (create_philo(data, eat_count))
 		return (1);
 	return (0);
