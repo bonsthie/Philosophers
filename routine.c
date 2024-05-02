@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:43:36 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/01 18:33:00 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/02 13:58:53 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	*philo_routine(void *args)
 		if (sleep_action(philo, data, data->time))
 			return (set_to_die(philo));
 		print_status(THINK_MSG, data, get_time() / 1000, philo->id);
+		usleep(100);
 		if (philo_die(philo) != NO_EAT_COUNT)
 			eat_meal(philo);
 	}
