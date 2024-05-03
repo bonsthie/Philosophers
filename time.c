@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   time.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/03 16:53:03 by babonnet          #+#    #+#             */
+/*   Updated: 2024/05/03 16:53:51 by babonnet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 #include <sys/time.h>
 
@@ -32,11 +44,11 @@ int	philo_wait(t_philo *philo, long long time_to_sleep, long long time_to_die)
 		time_to_sleep -= WAIT_INTERVAL;
 		time_to_die -= WAIT_INTERVAL;
 	}
-//	if (time_to_sleep > time_to_die)
-//	{
-//		usleep(time_to_die);
-//		return (1);
-//	}
+	if (time_to_sleep > time_to_die)
+	{
+		usleep(time_to_die);
+		return (1);
+	}
 	if (time_to_sleep > 0)
 		usleep(time_to_sleep);
 	return (0);
@@ -47,7 +59,7 @@ long long	time_reamaning(t_philo *philo)
 	return (philo->data->time.die - (get_time() - philo->last_ate));
 }
 
-void philo_finish(t_philo_data *data)
+void	philo_finish(t_philo_data *data)
 {
 	pthread_mutex_lock(&data->stop_mutex);
 	if (data->stop > 0)
@@ -55,7 +67,7 @@ void philo_finish(t_philo_data *data)
 	pthread_mutex_unlock(&data->stop_mutex);
 }
 
-void set_to_stop(t_philo_data *data)
+void	set_to_stop(t_philo_data *data)
 {
 	pthread_mutex_lock(&data->stop_mutex);
 	data->stop = 0;

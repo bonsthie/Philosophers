@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:34:33 by babonnet          #+#    #+#             */
-/*   Updated: 2024/04/26 19:35:52 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:44:03 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,5 @@ int	ft_strncmp(const char *first, const char *second, size_t length)
 		return (0);
 	while (first[i] == second[i] && first[i] && i < length - 1)
 		i++;
-	return ((unsigned char) first[i] - (unsigned char) second[i]);
+	return ((unsigned char)first[i] - (unsigned char)second[i]);
 }
-

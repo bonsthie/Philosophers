@@ -6,42 +6,49 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:52:34 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/01 16:44:51 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/05/03 18:20:37 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <pthread.h>
+#include <string.h>
 #include <unistd.h>
 
-void	philo_philoing(t_philo_data *data)
+void	monitor(t_philo *philo)
 {
-	t_philo	*philo;
-	int		*dead;
-	int		i;
+	(void)philo;
+}
 
-	i = 0;
-	philo = data->philo;
-	while (i < data->philo_nb)
+static void	start_philo(t_philo *philo, int philo_nb)
+{
+	t_philo	*endptr;
+
+	endptr = philo + philo_nb;
+	while (philo < endptr)
 	{
-		if (pthread_create(&data->philo[i].thread, NULL, philo_routine,
-				&data->philo[i]))
-		{
-			print_status(EAT_MSG, data, philo[i].id, 0);
-			return ;
-		}
-		i++;
+		pthread_create(&philo->thread, NULL, philo_routine, philo);
+		philo++;
 	}
-	i = 0;
-	while (i < data->philo_nb)
+}
+
+static void	join_philo(t_philo *philo, int philo_nb)
+{
+	t_philo	*endptr;
+
+	endptr = philo + philo_nb;
+	while (philo < endptr)
 	{
-		if (pthread_join(philo[i].thread, (void **)&dead))
-		{
-			print_status(ERROR_JOIN , data, philo[i].id, 0);
-			return ;
-		}
-		i++;
+		pthread_join(philo->thread, NULL);
+		philo++;
 	}
+}
+
+static void	philo_philoing(t_philo_data *data)
+{
+	start_philo(data->philo, data->philo_nb);
+	monitor(data->philo);
+	join_philo(data->philo, data->philo_nb);
 }
 
 int	main(int ac, char **av)
@@ -52,6 +59,11 @@ int	main(int ac, char **av)
 		return (1);
 	if (philo_init(av + 1, &data))
 		return (1);
+	if (data.philo_nb == 1)
+	{
+		printf(DIED_MSG, (long long)0, 1);
+		return (0);
+	}
 	get_time();
 	mutex_init(&data);
 	philo_philoing(&data);
