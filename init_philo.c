@@ -6,17 +6,23 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 21:48:42 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/03 18:18:11 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/06/16 20:27:00 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <bits/wchar.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-int	fill_number(char *str)
+int is_invalid_char(char c)
+{
+    return ((c && !ft_isdigit(c) && !ft_isspace(c)));
+}
+
+long	fill_number(char *str)
 {
 	char		*endptr;
-	long int	i;
+	long	i;
 
 	if (!str)
 		return (-1);
@@ -24,9 +30,8 @@ int	fill_number(char *str)
 		str++;
 	if (!*str)
 		return (-1);
-	i = ft_strtol(str, &endptr, 10);
-	if ((*endptr && !ft_isdigit(*endptr) && !ft_isspace(*endptr)) || i < 0
-		|| i > MAX_INT)
+	i = ft_strtoll(str, &endptr, 10);
+	if (is_invalid_char(*endptr) || i <= 0 || i > MAX_INT)
 		return (-1);
 	if (endptr - str > 11)
 		return (-1);
@@ -65,19 +70,22 @@ int	philo_init(char *args[4], t_philo_data *data)
 	int	eat_count;
 
 	data->philo_nb = fill_number(args[0]);
-	data->time.die = fill_number(args[1]) * 1000;
-	data->time.eat = fill_number(args[2]) * 1000;
-	data->time.sleep = fill_number(args[3]) * 1000;
+	data->time.die = fill_number(args[1]);
+	data->time.eat = fill_number(args[2]);
+	data->time.sleep = fill_number(args[3]);
 	if (args[4])
 		eat_count = fill_number(args[4]);
 	else
 		eat_count = NO_EAT_COUNT;
-	if (data->philo_nb < 0
+	if (data->philo_nb <= 0
 		|| data->time.die < 0
 		|| data->time.eat < 0
 		|| data->time.sleep < 0
 		|| eat_count == -1)
+	{
+		printf("Invalid arguments\n");
 		return (1);
+	}
 	data->stop = data->philo_nb;
 	if (create_philo(data, eat_count))
 		return (1);

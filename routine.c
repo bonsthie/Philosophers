@@ -6,13 +6,11 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:43:36 by babonnet          #+#    #+#             */
-/*   Updated: 2024/05/03 18:00:24 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/06/16 20:12:47 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <pthread.h>
-#include <unistd.h>
 
 static int	take_fork(t_philo *philo, int fork_id)
 {
@@ -20,7 +18,7 @@ static int	take_fork(t_philo *philo, int fork_id)
 		pthread_mutex_lock(&philo->fork_left);
 	else
 		pthread_mutex_lock(philo->fork_right);
-	print_status(FORK_MSG, philo->data, get_time() / 1000, philo->id);
+	print_status(FORK_MSG, philo->data, get_time(), philo->id);
 	return (0);
 }
 
@@ -42,7 +40,7 @@ static int	eat(t_philo *philo, t_philo_data *data, t_time time)
 	int	err;
 
 	philo->last_ate = get_time();
-	print_status(EAT_MSG, data, philo->last_ate / 1000, philo->id);
+	print_status(EAT_MSG, data, philo->last_ate, philo->id);
 	err = philo_wait(philo, time.eat, time_reamaning(philo));
 	pthread_mutex_unlock(&philo->fork_left);
 	pthread_mutex_unlock(philo->fork_right);
@@ -51,7 +49,7 @@ static int	eat(t_philo *philo, t_philo_data *data, t_time time)
 
 static int	sleep_action(t_philo *philo, t_philo_data *data, t_time time)
 {
-	print_status(SLEEP_MSG, data, get_time() / 1000, philo->id);
+	print_status(SLEEP_MSG, data, get_time(), philo->id);
 	return (philo_wait(philo, time.sleep, time_reamaning(philo)));
 }
 
@@ -62,8 +60,9 @@ void	*philo_routine(void *args)
 
 	philo = args;
 	data = philo->data;
-	while (stop(philo->data) && (philo->eat_count > 0
-			|| philo->eat_count == NO_EAT_COUNT))
+	while (stop(&data->stop, get_stop_value) 
+		&& (philo->eat_count > 0 \
+		|| philo->eat_count == NO_EAT_COUNT))
 	{
 		if (take_forks(philo))
 			return (philo_die(philo));
@@ -76,8 +75,8 @@ void	*philo_routine(void *args)
 		if (philo->eat_count != NO_EAT_COUNT)
 			philo->eat_count--;
 	}
-	philo_finish(data);
-	while (stop(philo->data))
+	stop(&data->stop, decrement_stop);
+	while (stop(&data->stop, get_stop_value))
 		usleep(1000);
 	return (PTHREAD_SUCCESS);
 }
