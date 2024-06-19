@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:53:03 by babonnet          #+#    #+#             */
-/*   Updated: 2024/06/16 20:42:15 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:55:09 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ long long	get_current_time(void)
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return (((long long)tv.tv_sec * MICROSECOND + tv.tv_usec ) / 1000);
+	return (((long long)tv.tv_sec * MICROSECOND + tv.tv_usec) / 1000);
 }
 
 long long	get_time(void)
@@ -35,7 +35,7 @@ long long	get_time(void)
 
 int	philo_wait(t_philo *philo, long long time_to_sleep, long long time_to_die)
 {
-	while ((long)time_to_sleep >= WAIT_INTERVAL)
+	while (time_to_sleep >= WAIT_INTERVAL)
 	{
 		if (!stop(&philo->data->stop, get_stop_value))
 			return (0);

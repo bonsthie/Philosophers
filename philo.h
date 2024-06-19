@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 20:20:25 by babonnet          #+#    #+#             */
-/*   Updated: 2024/06/16 20:36:32 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:55:53 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,11 @@ struct						s_philo_data
 # define EAT_MSG "\x1b[33m%lld %d is eating\n\x1b[0m"
 # define DIED_MSG "\x1b[31m%lld %d died\n\x1b[0m"
 
-void						print_status(char *str, t_philo_data *data,
+void						print_status(char *str,
+								t_philo_data *data,
 								long long int time,
-								int philo_id) __attribute__((format(printf, 1,
-										0)));
+								int philo_id)
+							__attribute__((format(printf, 1, 0)));
 
 // function
 int							philo_init(char *args[4], t_philo_data *data);

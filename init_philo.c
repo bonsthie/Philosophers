@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 21:48:42 by babonnet          #+#    #+#             */
-/*   Updated: 2024/06/16 20:27:00 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:56:36 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int is_invalid_char(char c)
+int	is_invalid_char(char c)
 {
-    return ((c && !ft_isdigit(c) && !ft_isspace(c)));
+	return ((c && !ft_isdigit(c) && !ft_isspace(c)));
 }
 
 long	fill_number(char *str)
 {
 	char		*endptr;
-	long	i;
+	long		i;
 
 	if (!str)
 		return (-1);
