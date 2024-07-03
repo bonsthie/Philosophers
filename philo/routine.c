@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:43:36 by babonnet          #+#    #+#             */
-/*   Updated: 2024/06/19 15:57:00 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/07/03 19:09:12 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static int	take_fork(t_philo *philo, int fork_id)
 
 static int	take_forks(t_philo *philo)
 {
-	take_fork(philo, philo->id % 2);
-	take_fork(philo, (philo->id + 1) % 2);
+	take_fork(philo, philo->id & 1);
+	take_fork(philo, (philo->id + 1) & 1);
 	if (time_reamaning(philo) < 0)
 	{
 		pthread_mutex_unlock(&philo->fork_left);
@@ -70,8 +70,8 @@ void	*philo_routine(void *args)
 			return (philo_die(philo));
 		if (sleep_action(philo, data, data->time))
 			return (philo_die(philo));
-		print_status(THINK_MSG, data, get_time() / 1000, philo->id);
-		usleep(100);
+		print_status(THINK_MSG, data, get_time(), philo->id);
+		usleep(1000);
 		if (philo->eat_count != NO_EAT_COUNT)
 			philo->eat_count--;
 	}

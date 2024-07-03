@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:52:34 by babonnet          #+#    #+#             */
-/*   Updated: 2024/06/16 19:22:15 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/07/03 19:17:59 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ int	main(int ac, char **av)
 	t_philo_data	data;
 
 	if (ac < 5 || ac > 6)
+	{
+		printf("Error: wrong number of arguments\n");
 		return (1);
+	}
 	if (philo_init(av + 1, &data))
 		return (1);
 	if (data.philo_nb == 1)

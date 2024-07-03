@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 21:48:42 by babonnet          #+#    #+#             */
-/*   Updated: 2024/06/19 15:56:36 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/07/03 19:20:24 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	is_invalid_char(char c)
 
 long	fill_number(char *str)
 {
-	char		*endptr;
-	long		i;
+	char	*endptr;
+	long	i;
 
 	if (!str)
 		return (-1);
@@ -49,7 +49,11 @@ int	create_philo(t_philo_data *data, int eat_count)
 
 	philo = malloc(data->philo_nb * sizeof(t_philo));
 	if (!philo)
+	{
+		printf("Error: %d is way to much philo the pc can't handle it\n",
+			data->philo_nb);
 		return (1);
+	}
 	data->philo = philo;
 	i = 0;
 	while (i < data->philo_nb)
@@ -83,7 +87,7 @@ int	philo_init(char *args[4], t_philo_data *data)
 		|| data->time.sleep < 0
 		|| eat_count == -1)
 	{
-		printf("Invalid arguments\n");
+		printf("Error: Invalid arguments\n");
 		return (1);
 	}
 	data->stop = data->philo_nb;

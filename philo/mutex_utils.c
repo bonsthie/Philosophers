@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:37:31 by babonnet          #+#    #+#             */
-/*   Updated: 2024/06/16 19:21:15 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:39:11 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ void	*philo_die(t_philo *philo)
 
 	stop(&philo->data->stop, set_to_stop);
 	if (!dead++)
-		printf(DIED_MSG, get_time() / 1000, philo->id);
+		printf(DIED_MSG, get_time(), philo->id);
 	return (PTHREAD_CANCELED);
 }

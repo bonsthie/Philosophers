@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 20:20:25 by babonnet          #+#    #+#             */
-/*   Updated: 2024/06/19 15:55:53 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:42:22 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,7 @@ struct						s_philo_data
 #  define PTHREAD_SUCCESS 0
 # endif
 
-# ifndef WAIT_INTERVAL
-#  define WAIT_INTERVAL 100
-# endif
+# define WAIT_INTERVAL 100
 
 # define FORK_MSG "\x1b[36m%lld %d has taken a fork\n\x1b[0m"
 # define SLEEP_MSG "\x1b[35m%lld %d is sleeping\n\x1b[0m"
