@@ -6,7 +6,7 @@
 #    By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/08 19:20:48 by babonnet          #+#    #+#              #
-#    Updated: 2024/04/23 18:37:06 by babonnet         ###   ########.fr        #
+#    Updated: 2024/07/04 16:28:21 by babonnet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,9 @@ HSRCS = include
 LIBFT = libft/libft.a
 SRC = $(shell find . -name '*.c')
 OBJS = $(SRC:%.c=$(OBJ_DIR)/%.o)
+
+TIMESLICE := $(shell cat /proc/sys/kernel/sched_rr_timeslice_ms)
+CFLAGS += -D TIME_SLICE_MS=$(TIMESLICE)
 
 all: $(NAME)
 
@@ -36,18 +39,17 @@ clean:
 	@echo "$(RED)Cleaning object files...$(NC)"
 	@rm -rf $(OBJ_DIR)
 
-fclean: clean lclean
+fclean: clean
 	@if [ -f $(NAME) ]; then \
 		echo "$(RED)Cleaning executable $(NAME)...$(NC)"; \
 		rm -f $(NAME); \
 		fi
 
-re : fclean all
+re: fclean all
 
-.PHONY: all clean fclean lclean re bonus
+.PHONY: all clean fclean re
 
 RED = \033[0;31m
 GREEN = \033[0;32m
 YELLOW = \033[1;33m
-PURPULE = \e[0;35m
 NC = \033[0m

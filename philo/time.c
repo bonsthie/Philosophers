@@ -6,7 +6,7 @@
 /*   By: babonnet <babonnet@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:53:03 by babonnet          #+#    #+#             */
-/*   Updated: 2024/06/19 15:55:09 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/07/04 16:23:12 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,15 @@ long long	get_time(void)
 
 int	philo_wait(t_philo *philo, long long time_to_sleep, long long time_to_die)
 {
-	while (time_to_sleep >= WAIT_INTERVAL)
+	while (time_to_sleep >= TIME_SLICE_MS)
 	{
 		if (!stop(&philo->data->stop, get_stop_value))
 			return (0);
 		if (time_to_die <= 0)
 			return (1);
-		usleep(WAIT_INTERVAL * 1000);
-		time_to_sleep -= WAIT_INTERVAL;
-		time_to_die -= WAIT_INTERVAL;
+		usleep(TIME_SLICE_MS * 1000);
+		time_to_sleep -= TIME_SLICE_MS;
+		time_to_die -= TIME_SLICE_MS;
 	}
 	if (time_to_sleep > time_to_die)
 	{
